@@ -1,33 +1,10 @@
-def fold(cond; next):
-  def _fold:
-    if cond then
-      next | _fold
-    end;
-  _fold;
-
-def fold(cond; next; extract):
-  def _fold:
-    if cond then
-      next | _fold
-    else
-      extract
-    end;
-  _fold;
-
-def while(cond; update; extract):
-  def _while:
-    if cond then
-      extract, (update | _while)
-    else empty end;
-  _while;
-
 def bin:
   if .<0 then
     "-"+(-.|bin)
   elif .==0 then
     "0"
   else
-    [while(.>0; ./2|floor; .%2)]
+    [while(.>0; ./2|floor) | .%2]
     | reverse
     | join("")
   end;
@@ -38,7 +15,7 @@ def oct:
   elif .==0 then
     "0"
   else
-    [while(.>0; ./8|floor; .%8)]
+    [while(.>0; ./8|floor) | .%8]
     | reverse
     | join("")
   end;
@@ -55,7 +32,7 @@ def hex(upper):
       [range(0; 10), "a", "b", "c", "d", "e", "f"]
     end) as $chars |
 
-    [while(.>0; ./16|floor; $chars[.%16])]
+    [while(.>0; ./16|floor) | $chars[.%16]]
     | reverse
     | join("")
   end;
